@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
+    'rest_framework',
+    'listapp',
 ]
 
 MIDDLEWARE = [
@@ -91,7 +93,7 @@ DATABASES = {
         'NAME': 'hanium',                     
         'USER': 'admin',                          
         'PASSWORD': '00000000',                  
-        'HOST': 'database.cd3a7hnebte9.us-west-2.rds.amazonaws.com',                     
+        'HOST': 'database.cd3a7hnebte9.us-west-2.rds.amazonaws.com',
         'PORT': '3306',
         'OPTIONS':{
             'init_command' : "SET sql_mode='STRICT_TRANS_TABLES'"
