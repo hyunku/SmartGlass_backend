@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'home',
     'rest_framework',
     'listapp',
+    'accounts',
 ]
 
 MIDDLEWARE = [
