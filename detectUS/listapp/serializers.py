@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from listapp.models import Building, Company
+from home.models import Building, Company
 
 
 class CompanySerializer(serializers.Serializer):

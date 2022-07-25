@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from listapp.models import Building
+from home.models import Building
 from listapp.serializers import BuildingSerializer
 
 
