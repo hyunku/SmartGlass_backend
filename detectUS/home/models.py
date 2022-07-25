@@ -77,7 +77,7 @@ class Floor(models.Model):
 
     class Meta:
         db_table='floor'
-        unique_together = (("floor", "building_id"),) # composite primary key 지정
+        unique_together = (("floor", "building_id"),) # composite primary key
         
         
 class Drawing(models.Model):
