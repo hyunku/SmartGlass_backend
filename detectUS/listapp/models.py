@@ -3,4 +3,3 @@ from django.db.models import CASCADE
 
 
 # Create your models here.
-
