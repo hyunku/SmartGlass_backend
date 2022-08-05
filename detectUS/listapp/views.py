@@ -112,8 +112,8 @@ class UnConnect_user_glass(APIView):
     # glass 객체 가져오기
     def get_object(self, pk):
         try:
-            return glass.objects.get(pk=pk)
-        except glass.DoesNotExist:
+            return Glass.objects.get(pk=pk)
+        except Glass.DoesNotExist:
             raise Http404
     # 선택한 glass 보기
     def get(self, request, pk, format=None):
