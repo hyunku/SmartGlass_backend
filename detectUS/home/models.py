@@ -6,7 +6,7 @@ from django.db.models import CASCADE
 from curses import REPORT_MOUSE_POSITION
 
 
-class account(models.Model):
+class Account(models.Model):
     user_id = models.CharField(max_length=45, null=False, primary_key=True)
     user_pw = models.CharField(max_length=20, null=False)
     company_id = models.ForeignKey('Company', on_delete=models.CASCADE, default='', db_column='company_id')
@@ -17,7 +17,7 @@ class account(models.Model):
         db_table = 'account'
 
 
-class glass(models.Model):
+class Glass(models.Model):
     glass_id = models.AutoField(null=False, primary_key=True)
     glass_name = models.CharField(max_length=45, null=False)
     user_id = models.CharField(max_length=45, null=True)
@@ -28,13 +28,13 @@ class glass(models.Model):
         db_table = 'glass'
 
 
-class raw_data(models.Model):
+class Raw_data(models.Model):
     raw_data_id = models.AutoField(primary_key=True)
     picture = models.CharField(max_length=100, null=True)
     voice = models.CharField(max_length=100, null=True)
     voice_to_text = models.CharField(max_length=100, null=True)
     upload_user_id = models.CharField(max_length=45, null=True)
-    upload_target_building = models.IntegerField(null=True)
+    upload_target_building_id = models.IntegerField(null=True)
 
     class Meta:
         db_table = 'raw_data'
@@ -63,7 +63,6 @@ class Building(models.Model):
 class Issue(models.Model):
     issue_id = models.AutoField(primary_key=True)
     raw_data_id = models.OneToOneField("Raw_data", on_delete=models.CASCADE, db_column='raw_data_id', default='')
-    building_id = models.ForeignKey("Building", on_delete=models.CASCADE, db_column='building_id', default='')
     floor = models.CharField(max_length=10, null=True)
     room = models.CharField(max_length=100, null=True)
     details = models.CharField(max_length=100, null=True)

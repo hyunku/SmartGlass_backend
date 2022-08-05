@@ -2,9 +2,9 @@ from rest_framework import serializers
 
 from home.models import Building, Company
 
-from home.models import glass
+from home.models import Glass
 
-from home.models import account
+from home.models import Account
 
 
 class CompanySerializer(serializers.Serializer):
@@ -20,33 +20,20 @@ class BuildingSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class BuildingTestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Building
-        fields = '__all__'
-
-    def to_representation(self, instance):
-        response = super().to_representation(instance)
-        response['company_id'] = CompanySerializer(instance.company_id).data
-        return response
-
-
 class GlassSerializer(serializers.ModelSerializer):
     class Meta:
-        model = glass
+        model = Glass
         fields = '__all__'
 
 
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
-        model = account
+        model = Account
         fields = ['user_id', 'company_id', 'is_admin', 'name']
 
 
 class ConnectSerializer(serializers.ModelSerializer):
-    user_id_imsi = AccountSerializer(read_only=True)
     class Meta:
-        model = glass
-        fields = '__all__'
+        model = Glass
+        fields = ['user_id']
 
-# 유저 테이블에서 유저 아이디를 참고해서
