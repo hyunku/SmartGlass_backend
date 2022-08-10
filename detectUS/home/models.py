@@ -9,7 +9,7 @@ from curses import REPORT_MOUSE_POSITION
 class account(models.Model):
     user_id = models.CharField(max_length=45,null=False,primary_key=True)
     user_pw = models.CharField(max_length=20,null=False)
-    company_id = models.ForeignKey('Company', on_delete=models.CASCADE,default='',db_column='company_id')
+    company_name = models.ForeignKey('Company', on_delete=models.CASCADE,default='',db_column='company_id',related_name='company')
     is_admin = models.IntegerField(null=False,default='0')# 
     name = models.CharField(max_length=45,null=False,default='')
 
