@@ -11,4 +11,5 @@ class passwordSerializer(serializers.HyperlinkedModelSerializer):
 class userchangeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = '__all__'#'[__all__]' 아님 
+        fields = '__all__'#'[__all__]' 아님
+
