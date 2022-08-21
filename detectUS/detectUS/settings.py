@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 #aws db 연결
@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'listapp',
     'accounts',
+    'settingsapp',
+    
+    'rest_framework.authtoken', 
 ]
 
 MIDDLEWARE = [

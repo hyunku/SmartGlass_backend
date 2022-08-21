@@ -5,6 +5,8 @@ from django.utils import timezone
 from django.db.models import CASCADE
 from curses import REPORT_MOUSE_POSITION
 
+# 참조하는 쪽으로 화살표
+# fk 에서 pk 쪽으로 화살표
 
 class Account(models.Model):
     user_id = models.CharField(max_length=45, null=False, primary_key=True)
@@ -12,15 +14,14 @@ class Account(models.Model):
     company_id = models.ForeignKey('Company', on_delete=models.CASCADE, default='', db_column='company_id')
     is_admin = models.IntegerField(null=False, default='0')  #
     name = models.CharField(max_length=45, null=False, default='')
-
     class Meta:
         db_table = 'account'
 
 
 class Glass(models.Model):
-    glass_id = models.AutoField(null=False, primary_key=True)
-    glass_name = models.CharField(max_length=45, null=False)
-    user_id = models.CharField(max_length=45, null=True)
+    glass_id = models.AutoField(null=False,primary_key=True)
+    glass_name = models.CharField(max_length=45,null=False)
+    user_id = models.CharField(max_length=45,null=True)
     building_id = models.IntegerField(null=True)
     company_id = models.IntegerField(null=True)
 
@@ -30,10 +31,10 @@ class Glass(models.Model):
 
 class Raw_data(models.Model):
     raw_data_id = models.AutoField(primary_key=True)
-    picture = models.CharField(max_length=100, null=True)
-    voice = models.CharField(max_length=100, null=True)
-    voice_to_text = models.CharField(max_length=100, null=True)
-    upload_user_id = models.CharField(max_length=45, null=True)
+    picture = models.CharField(max_length=100,null=True)
+    voice = models.CharField(max_length=100,null=True)
+    voice_to_text = models.CharField(max_length=100,null=True)
+    upload_user_id = models.CharField(max_length=45,null=True)
     upload_target_building_id = models.IntegerField(null=True)
 
     class Meta:
@@ -54,7 +55,7 @@ class Building(models.Model):
     company_id = models.ForeignKey(Company, on_delete=CASCADE, db_column='company_id')  # 외래키 지정
     max_floor = models.IntegerField(null=True)
     min_floor = models.IntegerField(null=True)
-    building_context = models.CharField(default='', max_length=100)
+    building_context = models.CharField(default='',max_length=100)
 
     class Meta:
         db_table = 'building'
@@ -62,10 +63,10 @@ class Building(models.Model):
 
 class Issue(models.Model):
     issue_id = models.AutoField(primary_key=True)
-    raw_data_id = models.OneToOneField("Raw_data", on_delete=models.CASCADE, db_column='raw_data_id', default='')
-    floor = models.CharField(max_length=10, null=True)
-    room = models.CharField(max_length=100, null=True)
-    details = models.CharField(max_length=100, null=True)
+    raw_data_id = models.OneToOneField("Raw_data",on_delete=models.CASCADE, db_column='raw_data_id',default='')
+    floor = models.CharField(max_length=10,null=True)
+    room = models.CharField(max_length=100,null=True)
+    details = models.CharField(max_length=100,null=True)
 
     class Meta:
         db_table = 'issue'
