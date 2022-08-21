@@ -1,20 +1,21 @@
 from rest_framework import serializers
 
-from home.models import Building, Company
+from home.models import Building, Company, Glass, Issue, Raw_data
 
-from home.models import Glass
+from rest_framework.serializers import ModelSerializer
 
-from home.models import Account
+from home.models import Issue, Raw_data, Drawing
 
 
 class CompanySerializer(serializers.Serializer):
     class Meta:
         model = Company
-        fields = '__all__'
+        fields = ['company_id']
 
 
 class BuildingSerializer(serializers.ModelSerializer):
     company_id_imsi = CompanySerializer(read_only=True)
+
     class Meta:
         model = Building
         fields = '__all__'
@@ -23,17 +24,40 @@ class BuildingSerializer(serializers.ModelSerializer):
 class GlassSerializer(serializers.ModelSerializer):
     class Meta:
         model = Glass
-        fields = '__all__'
+        fields = ['glass_name']
 
 
-class AccountSerializer(serializers.ModelSerializer):
+class ShowUserBuildingSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Account
-        fields = ['user_id', 'company_id', 'is_admin', 'name']
+        model = Building
+        fields = ['building_id', 'building_name', 'building_context']
 
 
-class ConnectSerializer(serializers.ModelSerializer):
+class BuildingCreateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Glass
-        fields = ['user_id']
+        model = Building
+        fields = ['building_name', 'max_floor', 'min_floor', 'building_context', 'company_id']
 
+
+class RawDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Raw_data
+        fields = ['picture']
+
+
+class IssueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Issue
+        fields = ['floor', 'room', 'details', 'raw_data_id']
+
+
+class BuildingDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Building
+        fields = ['building_name', 'max_floor', 'min_floor']
+
+
+class DrawingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Drawing
+        fields = ['drawing']

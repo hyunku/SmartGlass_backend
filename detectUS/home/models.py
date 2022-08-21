@@ -5,6 +5,8 @@ from django.utils import timezone
 from django.db.models import CASCADE
 from curses import REPORT_MOUSE_POSITION
 
+# 참조하는 쪽으로 화살표
+# fk 에서 pk 쪽으로 화살표
 
 <<<<<<< HEAD
 class account(models.Model):
