@@ -29,7 +29,11 @@ class Glass(models.Model):
 
 class Raw_data(models.Model):
     raw_data_id = models.AutoField(primary_key=True)
+<<<<<<< HEAD
     picture = models.CharField(max_length=100,null=True)
+=======
+    picture = models.CharField(max_length=200,null=True)
+>>>>>>> origin/homeapp
     voice = models.CharField(max_length=100,null=True)
     voice_to_text = models.CharField(max_length=100,null=True)
     upload_user_id = models.CharField(max_length=45,null=True)
@@ -85,4 +89,8 @@ class Drawing(models.Model):
     drawing = models.CharField(max_length=100, null=False)
 
     class Meta:
+<<<<<<< HEAD
         db_table = 'drawing'
+=======
+        db_table = 'drawing'
+>>>>>>> origin/homeapp
