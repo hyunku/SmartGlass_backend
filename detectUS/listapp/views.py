@@ -14,6 +14,9 @@ from listapp.serializers import BuildingSerializer, GlassSerializer, ShowUserBui
 
 # objects.get : 고유한 값(ex:pk)으로 한개의 값만 추출 -> obj 형태로 받음
 # objects.filter : 쿼리문으로 데이터를 받아와서 쿼리문으로 작성 가능 -> queryset 형태로 받음
+# objects.filter() : queryset 객체 자체가 나옴
+# objects.filter().values() : queryset 객체 내부 특정 속성들까지 출력시켜줌
+
 
 # <참조와 역참조>
 
@@ -41,8 +44,7 @@ from listapp.serializers import BuildingSerializer, GlassSerializer, ShowUserBui
 #     serializer.save()
 #     serializer.data['필드']
 
-
-class BuildingDetail(APIView):  # 특정 빌딩 관련 전체 데이터들
+class BuildingDetail(APIView): # 특정 빌딩 관련 전체 데이터들
     def get_object(self, pk):
         try:
             return Building.objects.get(pk=pk)
@@ -50,36 +52,37 @@ class BuildingDetail(APIView):  # 특정 빌딩 관련 전체 데이터들
             raise Http404
 
     def get(self, request, pk, format=None):
-        building = self.get_object(pk)
-        b_serial = BuildingDetailSerializer(building)
-        b_name = building.building_name
+        # queryset load
+        building = Building.objects.filter(building_id=pk).values("building_name", "max_floor", "min_floor")
+        rawdataID = Raw_data.objects.filter(upload_target_building_id=pk).values("raw_data_id")
+        pict = Raw_data.objects.filter(upload_target_building_id=pk).values("picture")
 
-        raw = Raw_data.objects.filter(upload_target_building_id=pk)
-        r_serial = RawDataSerializer(raw, many=True)
+        rawdataID_list = [] # 1,3 저장됨.
+        for qs in rawdataID.values():
+            rawdataID_list.append(qs['raw_data_id'])
+        issue = Issue.objects.filter(raw_data_id__in=rawdataID_list).values("raw_data_id","floor","room","details")
 
-        issue = raw.prefetch_related('issue') # 역참조
-        rawid = []
-        for qs in issue.values():
-            rawid.append(qs['raw_data_id'])
-        isuli = []
-        for i in rawid:
-            isuli.append(Issue.objects.filter(raw_data_id=i).values())
+        # queryset -> list
+        pict_list = [x for x in pict]
+        issue_list_imsi = [x for x in issue]
+
+        # many list -> one dict -> one list
+        issue_list = [dict(i,**j) for i,j in zip(issue_list_imsi, pict_list)]
 
         # floor = Floor.objects.get(building_id=pk) # 현재 데이터가 없는 관계로 주석처리
         # print(floor)
-        # draw = floor.drawing_id
-        # drawdata = Drawing.objects.filter(drawing_id=draw).all()
-        # d_serial = DrawingSerializer(drawdata, many=True)
+        # drawID = floor.drawing_id
+        # drawdata = Drawing.objects.filter(drawing_id=drawID).values("drawing")
+        # drawing_list = [x for x in drawdata]
 
-        # imsi_dict = dict(r_serial.data, **i_serial.data) # serializer 데이터들 합치기
-        # imsi_dict["building_name"] = b_name
-        # print(imsi_dict)
-        # print(i_serial.data)
-        # print(r_serial.data)
-        return Response({"Building_info" : b_serial.data,
-                        "issue_list" : isuli,
-                         "picture_list" : r_serial.data})
-                         # ,"picture_all" : d_serial.data})
+        response_data = {
+            "building_name" : building[0]['building_name'],
+            "max_floor": building[0]['max_floor'],
+            "min_floor": building[0]['min_floor'],
+            # "drawing_list": drawing_list,
+            "issue_list":issue_list}
+
+        return Response(response_data)
 
 
 class ShowUserBuilding(APIView): # 로그인한 유저의 user_id 를 받아와서 유저에 해당하는 건물들 출력
@@ -94,7 +97,7 @@ class ShowUserBuilding(APIView): # 로그인한 유저의 user_id 를 받아와�
         company = account.company_id # 로그인 유저의 company_id 들 가져오기
         buildings = company.building_set.all() # 역참조 데이터 읽기 - 테이블에 related_name 설정 안되어있을 때 - 테이블명소문자_set 사용
         serializer = ShowUserBuildingSerializer(buildings, many=True)
-        return Response({"is_admin" : account.is_admin,
+        return Response({"admin" : account.is_admin,
                          "building_list" : serializer.data})
 
 # 빌딩 등록 시 building_name, max min floor, building_context만 받아오게끔 -> company_id 는 user_id -> company_id 로 받아오게끔

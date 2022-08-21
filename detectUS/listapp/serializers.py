@@ -61,8 +61,3 @@ class DrawingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Drawing
         fields = ['drawing']
-
-    # def to_representation(self, instance):
-    #     response = super().to_representation(instance)
-    #     response['Building'] = ShowUserBuildingSerializer(instance.company_id).data
-    #     return response

@@ -12,7 +12,6 @@ from listapp.views import CreateGlass
 
 from listapp.views import ShowUserBuilding
 
-
 app_name = 'listapp'
 
 urlpatterns = [
@@ -21,5 +20,5 @@ urlpatterns = [
     path('building/delete/<int:pk>/', DeleteBuilding.as_view()),
     path('building/list/<str:pk>/', ShowUserBuilding.as_view()),
     path('glass/list/<str:user_id>/', show_glass_list2),
-    path('glass/create/', CreateGlass.as_view()),
+    path('glass/create/', CreateGlass.as_view())
 ]
