@@ -5,25 +5,13 @@ from django.utils import timezone
 from django.db.models import CASCADE
 from curses import REPORT_MOUSE_POSITION
 
-# 참조하는 쪽으로 화살표
-# fk 에서 pk 쪽으로 화살표
 
-<<<<<<< HEAD
-class account(models.Model):
-    user_id = models.CharField(max_length=45,null=False,primary_key=True)
-    user_pw = models.CharField(max_length=20,null=False)
-    company_name = models.ForeignKey('Company', on_delete=models.CASCADE,default='',db_column='company_id',related_name='company')
-    is_admin = models.IntegerField(null=False,default='0')# 
-    name = models.CharField(max_length=45,null=False,default='')
-
-=======
 class Account(models.Model):
     user_id = models.CharField(max_length=45, null=False, primary_key=True)
     user_pw = models.CharField(max_length=20, null=False)
     company_id = models.ForeignKey('Company', on_delete=models.CASCADE, default='', db_column='company_id')
     is_admin = models.IntegerField(null=False, default='0')  #
     name = models.CharField(max_length=45, null=False, default='')
->>>>>>> accountsapp
     class Meta:
         db_table = 'account'
 
@@ -41,11 +29,7 @@ class Glass(models.Model):
 
 class Raw_data(models.Model):
     raw_data_id = models.AutoField(primary_key=True)
-<<<<<<< HEAD
-    picture = models.CharField(max_length=100,null=True)
-=======
     picture = models.CharField(max_length=200,null=True)
->>>>>>> origin/homeapp
     voice = models.CharField(max_length=100,null=True)
     voice_to_text = models.CharField(max_length=100,null=True)
     upload_user_id = models.CharField(max_length=45,null=True)
@@ -101,8 +85,4 @@ class Drawing(models.Model):
     drawing = models.CharField(max_length=100, null=False)
 
     class Meta:
-<<<<<<< HEAD
         db_table = 'drawing'
-=======
-        db_table = 'drawing'
->>>>>>> origin/homeapp

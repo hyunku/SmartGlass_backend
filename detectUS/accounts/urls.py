@@ -7,8 +7,8 @@ app_name = 'accounts'
 
 urlpatterns = [
 
-  path('signup',views.Sign_up,name="Signup"),
-  path('login',views.login,name="Login"),
+  path('signup/',views.Sign_up,name="Signup"),
+  path('login/',views.login,name="Login"),
   path('logout/<str:user_id>',views.logout,name="Logout"),
 
 ]

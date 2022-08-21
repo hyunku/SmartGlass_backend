@@ -16,9 +16,9 @@ app_name = 'listapp'
 
 urlpatterns = [
     path('building/detail/<int:pk>', BuildingDetail.as_view()),
-    path('building/create/<str:pk>/', CreateBuilding.as_view()),
-    path('building/delete/<int:pk>/', DeleteBuilding.as_view()),
-    path('building/list/<str:pk>/', ShowUserBuilding.as_view()),
-    path('glass/list/<str:user_id>/', show_glass_list2),
+    path('building/create/<str:pk>', CreateBuilding.as_view()),
+    path('building/delete/<int:pk>', DeleteBuilding.as_view()),
+    path('building/list/<str:pk>', ShowUserBuilding.as_view()),
+    path('glass/list/<str:user_id>', show_glass_list2),
     path('glass/create/', CreateGlass.as_view())
 ]

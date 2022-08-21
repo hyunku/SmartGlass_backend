@@ -1,16 +1,15 @@
 
 from ast import Return
 import json
-from msilib.schema import Class
-from re import template
-from telnetlib import STATUS
-from home.models import Company, Account
 
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from home.models import Company, Account
+from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+
 
 @csrf_exempt
+@require_http_methods(["GET", "POST"])
 def Sign_up(request) :
     
     response_data ={
@@ -66,6 +65,7 @@ def Sign_up(request) :
         return JsonResponse({'message':'get'}, status=200)
     
 @csrf_exempt
+@require_http_methods(["GET", "POST"])
 def login(request) :
     response_data ={
         "code": 200,
@@ -91,6 +91,7 @@ def login(request) :
         return JsonResponse({'message':'login api입니다.'}, status=200)
     
 @csrf_exempt
+@require_http_methods(["GET"])
 def logout(request,user_id) :
     if request.method=="GET":
         user_id=Account.objects.filter(user_id__iexact=user_id).values("user_id")

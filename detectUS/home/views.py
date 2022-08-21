@@ -34,12 +34,6 @@ def show_user_crack_list(request, user_id):
 #크랙 정보 목록 조회(노동자)
 def show_user_crack_list(request, user_id):
 
-<<<<<<< HEAD
-    #glass,building,raw_data,issue,account table에서 user_id가 일치하는 crack 정보만 가져옴
-    #raw_data_id,building_name,picture,floor,room,details,admin,title=내가발견한안전문제
-
-=======
->>>>>>> origin/homeapp
     #model에서 queryset 추출
     raw_data_id = Raw_data.objects.filter(upload_user_id__exact=user_id).values('raw_data_id')
     upload_target_building_id = Raw_data.objects.filter(upload_user_id__exact=user_id).values('upload_target_building_id')
@@ -52,19 +46,10 @@ def show_user_crack_list(request, user_id):
     upload_building_name_result = [entry for entry in upload_building_name]
     picture_result = [entry for entry in picture]
     information_result = [entry for entry in information] 
-<<<<<<< HEAD
-    print(raw_data_id_result)
-    print(upload_building_name_result)
-=======
->>>>>>> origin/homeapp
 
     #변환한 list들을 dict로 묶어주기
     crack_list = [dict(i,**j,**k,**l) for i,j,k,l in zip(raw_data_id_result,upload_building_name_result,picture_result,information_result)]
 
-<<<<<<< HEAD
-    #최종으로 보낼 data
-    data = {"admin":0,"title":"내가 발견한 안전문제","issue_list":crack_list}
-=======
     #연결 여부 조회, 사용자가 다른 글래스에 연결되어 있으면 1, 연결되어 있지 않으면 0
     connected_user = Glass.objects.values('user_id')
     connected_user_result = [entry['user_id'] for entry in connected_user]
@@ -76,7 +61,6 @@ def show_user_crack_list(request, user_id):
     
     #최종으로 보낼 data
     data = {"admin":0,"is_connected":is_connected,"title":"내가 발견한 안전문제","issue_list":crack_list}
->>>>>>> origin/homeapp
 
     return JsonResponse(data,json_dumps_params={'ensure_ascii': False})
 
@@ -168,21 +152,12 @@ def show_glass_list(request,user_id):
     glass = Glass.objects.filter(company_id__exact=user_company[0]['company_id']).values('glass_id','glass_name','user_id')
     print(glass)
 
-<<<<<<< HEAD
-    #enable 설정, user_id가 None이면 enable=1, else enable=0
-    for i in range(len(glass)):
-        if glass[i]['user_id'] is None:
-            glass[i]['enable'] = 1
-        else:
-            glass[i]['enable'] = 0
-=======
     #enable 설정, user_id가 None이면 enable=0, else enable=1
     for i in range(len(glass)):
         if glass[i]['user_id'] is None:
             glass[i]['enable'] = 0
         else:
             glass[i]['enable'] = 1
->>>>>>> origin/homeapp
 
     #Queryset을 python list로 변환
     glass_list = [entry for entry in glass]
@@ -233,9 +208,6 @@ def show_building_list(request,user_id):
     data = {"building_list":building_list}
 
     return JsonResponse(data,json_dumps_params={'ensure_ascii': False})
-<<<<<<< HEAD
- 
-=======
 
 #s3에서 이미지 받아서 db에 저장
 
@@ -340,4 +312,3 @@ def show_glass_list2(request,user_id):
     return JsonResponse(data,json_dumps_params={'ensure_ascii': False})
 
     return JsonResponse(data,json_dumps_params={'ensure_ascii': False})
->>>>>>> origin/homeapp
