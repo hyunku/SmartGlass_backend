@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/22_hi022_be.iml" filepath="$PROJECT_DIR$/.idea/22_hi022_be.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../mindpong/.idea/mindpong.iml" filepath="$PROJECT_DIR$/../mindpong/.idea/mindpong.iml" />
+    </modules>
+  </component>
+</project>

@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 #aws db 연결
@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-08ddn(nv6gp1*sar$h6g*^$5rq@@gab8u%t(0xleg5os(33rrh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,6 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
+    'rest_framework',
+    'listapp',
+    'accounts',
+    'rest_framework.authtoken', 
+    'settingsapp',
+    
 ]
 
 MIDDLEWARE = [
@@ -91,7 +97,7 @@ DATABASES = {
         'NAME': 'hanium',                     
         'USER': 'admin',                          
         'PASSWORD': '00000000',                  
-        'HOST': 'database.cd3a7hnebte9.us-west-2.rds.amazonaws.com',                     
+        'HOST': 'database.cd3a7hnebte9.us-west-2.rds.amazonaws.com',
         'PORT': '3306',
         'OPTIONS':{
             'init_command' : "SET sql_mode='STRICT_TRANS_TABLES'"
@@ -139,3 +145,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
