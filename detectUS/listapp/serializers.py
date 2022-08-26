@@ -4,7 +4,7 @@ from home.models import Building, Company, Glass, Issue, Raw_data
 
 from rest_framework.serializers import ModelSerializer
 
-from home.models import Issue, Raw_data, Drawing
+from home.models import Issue, Raw_data
 
 
 class CompanySerializer(serializers.Serializer):
@@ -56,8 +56,3 @@ class BuildingDetailSerializer(serializers.ModelSerializer):
         model = Building
         fields = ['building_name', 'max_floor', 'min_floor']
 
-
-class DrawingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Drawing
-        fields = ['drawing']

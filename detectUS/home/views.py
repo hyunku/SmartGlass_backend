@@ -311,4 +311,3 @@ def show_glass_list2(request,user_id):
 
     return JsonResponse(data,json_dumps_params={'ensure_ascii': False})
 
-    return JsonResponse(data,json_dumps_params={'ensure_ascii': False})

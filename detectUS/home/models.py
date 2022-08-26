@@ -73,16 +73,34 @@ class Issue(models.Model):
 class Floor(models.Model):
     floor = models.IntegerField(null=False)
     building_id = models.ForeignKey("Building", on_delete=models.CASCADE, db_column='building_id', default='')
-    drawing_id = models.ForeignKey("Drawing", on_delete=models.CASCADE, db_column='drawing_id')
+    drawing = models.CharField(max_length=200,null=True)
 
     class Meta:
         db_table = 'floor'
         unique_together = (("floor", "building_id"),)  # composite primary key
 
 
-class Drawing(models.Model):
-    drawing_id = models.AutoField(primary_key=True)
-    drawing = models.CharField(max_length=100, null=False)
+class Image(models.Model):
+    image_url = models.CharField(max_length=200,null=True)
+    upload_user_id = models.CharField(max_length=45,null=True)
+    upload_target_building_name = models.IntegerField(null=True)
+    key = models.CharField(max_length=200,null=True)
+    
+    class Meta:
+        db_table = 'image'
+
+class Voice_to_Text(models.Model):
+    voice_to_text = models.CharField(max_length=200,null=True)
+    upload_user_id = models.CharField(max_length=45,null=True)
+    upload_target_building_name = models.IntegerField(null=True)
+    key = models.CharField(max_length=200,null=True)
 
     class Meta:
-        db_table = 'drawing'
+        db_table = 'voice_to_text'
+
+class Key_Table(models.Model):
+    user_id = models.ForeignKey(Account, on_delete=CASCADE, db_column='user_id')
+    key = models.CharField(max_length=200,null=True)
+
+    class Meta:
+        db_table = 'key_table'
