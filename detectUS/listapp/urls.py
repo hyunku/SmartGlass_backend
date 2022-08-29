@@ -20,5 +20,5 @@ urlpatterns = [
     path('building/delete/<int:pk>', DeleteBuilding.as_view()),
     path('building/list/<str:pk>', ShowUserBuilding.as_view()),
     path('glass/list/<str:user_id>', show_glass_list2),
-    path('glass/create/', CreateGlass.as_view())
+    path('glass/create/<str:pk>', CreateGlass.as_view())
 ]

@@ -1,10 +1,9 @@
 from rest_framework import serializers
 
-from home.models import Building, Company, Glass, Issue, Raw_data
+from home.models import Building, Company, Glass, Issue, Raw_data, Floor
 
 from rest_framework.serializers import ModelSerializer
 
-from home.models import Issue, Raw_data
 
 
 class CompanySerializer(serializers.Serializer):
@@ -28,9 +27,21 @@ class GlassSerializer(serializers.ModelSerializer):
 
 
 class ShowUserBuildingSerializer(serializers.ModelSerializer):
+    # 1. 추가 or 수정하고 싶은 속성 정의 - read_only용도
+    name = serializers.SerializerMethodField()
+    context = serializers.SerializerMethodField()
+
+    # 3. fields 에 리턴할 딕셔너리 입력
     class Meta:
         model = Building
-        fields = ['building_id', 'building_name', 'building_context']
+        fields = ['building_id', 'name', 'context']
+
+    # 2. get_속성명 으로 시리얼라이저 내부 키/값 수정
+    def get_name(self, obj):
+        return obj.building_name
+
+    def get_context(self, obj):
+        return obj.building_context
 
 
 class BuildingCreateSerializer(serializers.ModelSerializer):
@@ -39,20 +50,11 @@ class BuildingCreateSerializer(serializers.ModelSerializer):
         fields = ['building_name', 'max_floor', 'min_floor', 'building_context', 'company_id']
 
 
-class RawDataSerializer(serializers.ModelSerializer):
+class DrawingSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Raw_data
-        fields = ['picture']
+        model = Floor
+        fields = ['floor', 'building_id', 'drawing']
 
 
-class IssueSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Issue
-        fields = ['floor', 'room', 'details', 'raw_data_id']
 
-
-class BuildingDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Building
-        fields = ['building_name', 'max_floor', 'min_floor']
 
