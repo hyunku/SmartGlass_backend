@@ -110,10 +110,6 @@ class ShowUserBuilding(APIView):  # 로그인한 유저의 user_id 를 받아와
 class CreateBuilding(APIView):  # 빌딩 등록
     # 새로운 Bulding을 등록
     def post(self, request, pk):
-        response_data = {
-            "code": 200,
-            "message": "생성되었습니다."
-        }
         account = Account.objects.get(pk=pk)  # user_id로 Account table 전달
         company = account.company_id  # Account table의 company_id로 Company 정참조 (Account 테이블의 fk(N) -> Company 테이블의 pk(1))
         if account.is_admin == 1:  # 관리자만 빌딩 등록 가능
@@ -122,7 +118,8 @@ class CreateBuilding(APIView):  # 빌딩 등록
             serializer.initial_data['company_id'] = company.company_id  # Serializer의 key값(company_id)과 value값으로 참조한 user_id로부터 참조한 company_id 입력
             if serializer.is_valid():  # 유효성 검사
                 serializer.save()  # 저장
-                return Response(response_data)
+                return Response({"message" : "빌딩이 생성되었습니다.",
+                                 "생성한 building_id" : serializer.data["building_id"]})
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"adminerror": "관리자가 아닙니다"})

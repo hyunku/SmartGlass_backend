@@ -47,7 +47,7 @@ class ShowUserBuildingSerializer(serializers.ModelSerializer):
 class BuildingCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Building
-        fields = ['building_name', 'max_floor', 'min_floor', 'building_context', 'company_id']
+        fields = ['building_id', 'building_name', 'max_floor', 'min_floor', 'building_context', 'company_id']
 
 
 class DrawingSerializer(serializers.ModelSerializer):
