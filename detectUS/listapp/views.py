@@ -165,6 +165,24 @@ class CreateGlass(APIView):
             return Response({"adminerror": "관리자가 아닙니다"})
 
 
+class EnrollPicture(APIView):
+    def post(self, request, pk):
+        account = Account.objects.get(pk=pk)
+        if account.is_admin == 1:
+            serializer = DrawingSerializer(data=request.data, many=True)
+            floor_list = []
+            for i in range(len(request.data['drawing'])):
+                floor_list.append(i)
+            serializer.initial_data['floor'] = floor_list
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"adminerror": "관리자가 아닙니다"})
+
+
+
 def show_glass_list2(request, user_id):
     # 접속 user의 company에서 관리하는 glass만 선택
     user_company = Account.objects.filter(user_id__exact=user_id).values('company_id')
