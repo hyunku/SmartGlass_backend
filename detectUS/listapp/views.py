@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 import boto3
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
@@ -166,14 +168,22 @@ class CreateGlass(APIView):
 
 
 class EnrollPicture(APIView):
-    def post(self, request, pk):
+    def post(self, request, pk): # 다수 데이터 저장 -> [{"purchased_at": null, "show": 11, "seat": 106}, {"purchased_at": null, "show": 11, "seat": 219}] 꼴로 만들어서 저장
         account = Account.objects.get(pk=pk)
         if account.is_admin == 1:
-            serializer = DrawingSerializer(data=request.data, many=True)
-            floor_list = []
-            for i in range(len(request.data['drawing'])):
-                floor_list.append(i)
-            serializer.initial_data['floor'] = floor_list
+            savinglist = []
+
+            for floor, drawings in enumerate(request.data['drawing_list']):
+                odi = OrderedDict() # 주의 : 시리얼라이저 순서에 맞게 속성 만들어주고 저장해주자. -> OrderedDict 사용 이유: 딕셔너리 내 순서 바뀌지 않고 저장한 순서대로 지킴.
+                odi['floor'] = floor+1
+                odi['building_id'] = request.data['building_id']
+                odi['drawing'] = drawings
+                savinglist.append(odi)
+
+            print(savinglist)
+
+            serializer = DrawingSerializer(data=savinglist, many=True)
+
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
