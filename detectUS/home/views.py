@@ -62,6 +62,7 @@ def show_user_crack_list(request, user_id):
     #최종으로 보낼 data
     data = {"admin":0,"is_connected":is_connected,"title":"내가 발견한 안전문제","issue_list":crack_list}
 
+
     return JsonResponse(data,json_dumps_params={'ensure_ascii': False})
 
 '''#크랙 정보 목록 조회(관리자)
