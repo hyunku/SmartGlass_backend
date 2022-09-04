@@ -62,6 +62,7 @@ def show_user_crack_list(request, user_id):
     #최종으로 보낼 data
     data = {"admin":0,"is_connected":is_connected,"title":"내가 발견한 안전문제","issue_list":crack_list}
 
+
     return JsonResponse(data,json_dumps_params={'ensure_ascii': False})
 
 '''#크랙 정보 목록 조회(관리자)
@@ -310,4 +311,83 @@ def show_glass_list2(request,user_id):
     data = {"admin":1,"glass_list":glass_list}
 
     return JsonResponse(data,json_dumps_params={'ensure_ascii': False})
+
+
+def show_list(request,user_id):
+
+    #admin 여부 판별
+    is_admin = Account.objects.filter(user_id__exact=user_id).values('is_admin')
+ 
+    #접속자가 user인 경우
+    if is_admin[0]['is_admin'] == 0:
+        
+        #model에서 queryset 추출
+        raw_data_id = Raw_data.objects.filter(upload_user_id__exact=user_id).values('raw_data_id')
+        upload_target_building_id = Raw_data.objects.filter(upload_user_id__exact=user_id).values('upload_target_building_id')
+        upload_building_name = Building.objects.filter(building_id__in=upload_target_building_id).values('building_name')
+        picture = Raw_data.objects.filter(upload_user_id__exact=user_id).values('picture')
+        information = Issue.objects.filter(issue_id__in=raw_data_id).values('floor','room','details')
+        
+        #추출한 queryset을 python list로 변환
+        raw_data_id_result = [entry for entry in raw_data_id]
+        upload_building_name_result = [entry for entry in upload_building_name]
+        picture_result = [entry for entry in picture]
+        information_result = [entry for entry in information] 
+
+        #변환한 list들을 dict로 묶어주기
+        crack_list = [dict(i,**j,**k,**l) for i,j,k,l in zip(raw_data_id_result,upload_building_name_result,picture_result,information_result)]
+
+        #연결 여부 조회, 사용자가 다른 글래스에 연결되어 있으면 1, 연결되어 있지 않으면 0
+        connected_user = Glass.objects.values('user_id')
+        connected_user_result = [entry['user_id'] for entry in connected_user]
+        print(connected_user_result)
+        if user_id in connected_user_result:
+            is_connected = 1
+        else:
+            is_connected = 0
+        
+        #최종으로 보낼 data
+        data = {"admin":0,"is_connected":is_connected,"title":"내가 발견한 안전문제","issue_list":crack_list}
+
+
+        return JsonResponse(data,json_dumps_params={'ensure_ascii': False})
+
+
+    #접속자가 admin인 경우
+    elif is_admin[0]['is_admin'] == 1:
+        
+        #접속 admin의 company 파악
+        user_company = Account.objects.filter(user_id__exact=user_id).values('company_id')
+        print(user_company)
+
+        #접속 admin과 같은 company에 소속되어 있는 user만 추출
+        user_list = Account.objects.filter(company_id__exact=user_company[0]['company_id']).values('user_id')&Account.objects.exclude(user_id__exact=user_id).values('user_id')
+        print(user_list)
+
+        #raw_data_id,name,picture,floor,room,details
+        raw_data_id = Raw_data.objects.filter(upload_user_id__in=user_list).values('raw_data_id')
+        upload_target_building_id = Raw_data.objects.filter(raw_data_id__in=raw_data_id).values('upload_target_building_id')
+        picture = Raw_data.objects.filter(upload_user_id__in=user_list).values('picture')
+        information = Issue.objects.filter(issue_id__in=raw_data_id).values('floor','room','details')
+
+        #추출한 queryset을 python list로 변환
+        raw_data_id_result = [entry for entry in raw_data_id]
+        picture_result = [entry for entry in picture]
+        information_result = [entry for entry in information] 
+
+        #변환한 list들을 dict로 묶어주기
+        crack_list = [dict(i,**j,**k) for i,j,k in zip(raw_data_id_result,picture_result,information_result)]
+
+        #building_id와 매치되는 building_name 추가
+        for i in range(len(upload_target_building_id)):
+            '''building_name = Building.objects.filter(building_id__exact=crack_list[i]['upload_target_building_id']).values('building_name')[0]['building_name']
+            crack_list[i]['name'] = building_name'''
+            building_name = Building.objects.filter(building_id__exact=upload_target_building_id[i]['upload_target_building_id']).values('building_name')[0]['building_name']
+            crack_list[i]['name'] = building_name
+
+        data = {"admin":1,"title":"새 이슈","issue_list":crack_list}
+        return JsonResponse(data,json_dumps_params={'ensure_ascii': False})
+            
+    
+    
 
