@@ -45,9 +45,14 @@ class ShowUserBuildingSerializer(serializers.ModelSerializer):
 
 
 class BuildingCreateSerializer(serializers.ModelSerializer):
+    context = serializers.SerializerMethodField()
+
     class Meta:
         model = Building
-        fields = ['building_id', 'building_name', 'max_floor', 'min_floor', 'building_context', 'company_id']
+        fields = ['building_id', 'building_name', 'max_floor', 'min_floor', 'context', 'company_id']
+
+    def get_context(self, obj):
+        return obj.building_context
 
 
 class DrawingSerializer(serializers.ModelSerializer):
