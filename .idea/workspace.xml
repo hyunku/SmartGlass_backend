@@ -4,7 +4,66 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="326cb6af-e514-42a6-95b3-20ef5a0ac621" name="Default Changelist" comment="" />
+    <list default="true" id="326cb6af-e514-42a6-95b3-20ef5a0ac621" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/detectUS/accounts/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/accounts/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/accounts/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/accounts/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/accounts/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/accounts/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/accounts/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/accounts/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/db.sqlite3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/dbsqlite.3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/detectUS/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/detectUS/asgi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/detectUS/settings.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/detectUS/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/detectUS/wsgi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/migrations/0002_account_company_id.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/migrations/0002_delete_item_info 2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/migrations/0003_glass_building_id_glass_company_id_glass_user_id.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/migrations/0004_alter_building_options_remove_building_context_and_more.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/migrations/0005_floor_building_id_issue_building_id_and_more.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/migrations/0006_rename_builing_context_building_building_context.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/migrations/0006_rename_upload_target_building_raw_data_upload_target_building_id.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/migrations/0007_remove_issue_building_id.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/migrations/0008_merge_20220825_0825.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/migrations/0009_image_key_voice_to_text_remove_floor_drawing_id_and_more.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/migrations/0010_alter_image_table_alter_key_table_and_more.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/migrations/0011_alter_key_table.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/migrations/0012_rename_key_key_table_alter_key_table_table.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/home/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/listapp/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/listapp/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/listapp/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/listapp/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/listapp/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/listapp/serializers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/listapp/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/listapp/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/listapp/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/manage.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/python" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/settingsapp/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/settingsapp/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/settingsapp/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/settingsapp/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/settingsapp/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/settingsapp/serializers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/settingsapp/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/settingsapp/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detectUS/settingsapp/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
