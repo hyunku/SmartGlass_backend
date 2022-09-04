@@ -14,5 +14,6 @@ urlpatterns = [
     path('user/list/connect/2/<str:user_id>', views.show_building_list, name="show_building_list"),
     path('manager/list/<str:user_id>', views.show_manager_crack_list, name="show_manager_crack_list"),
     path('user/connect/iot',views.connect_glass_and_building, name="connect_glass_and_building"),
-    path('user/disconnect/iot/<str:user_id>',views.disconnect_glass_and_building, name="connect_glass_and_building")
+    path('user/disconnect/iot/<str:user_id>',views.disconnect_glass_and_building, name="connect_glass_and_building"),
+    path('showlist/<str:user_id>',views.show_list, name="show_list")
 ]
