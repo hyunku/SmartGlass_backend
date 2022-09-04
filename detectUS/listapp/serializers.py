@@ -23,7 +23,7 @@ class BuildingSerializer(serializers.ModelSerializer):
 class GlassSerializer(serializers.ModelSerializer):
     class Meta:
         model = Glass
-        fields = ['glass_name']
+        fields = ['glass_name', 'company_id']
 
 
 class ShowUserBuildingSerializer(serializers.ModelSerializer):
