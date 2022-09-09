@@ -385,7 +385,16 @@ def show_list(request,user_id):
             building_name = Building.objects.filter(building_id__exact=upload_target_building_id[i]['upload_target_building_id']).values('building_name')[0]['building_name']
             crack_list[i]['name'] = building_name
 
-        data = {"admin":1,"title":"새 이슈","issue_list":crack_list}
+         #접속 user의 company에 속한 building만 선택
+        user_company = Account.objects.filter(user_id__exact=user_id).values('company_id')
+        building = Building.objects.filter(company_id__exact=user_company[0]['company_id']).values('building_id','building_name')
+        print(building)
+
+        #Queryset을 python list로 변환
+        building_list = [entry for entry in building]
+
+        data = {"admin":1,"title":"새 이슈","issue_list":crack_list,"building list":building_list}
+        
         return JsonResponse(data,json_dumps_params={'ensure_ascii': False})
             
     
