@@ -117,11 +117,12 @@ class CreateBuilding(APIView):  # 빌딩 등록
         if account.is_admin == 1:  # 관리자만 빌딩 등록 가능
             # request.data는 사용자의 입력 데이터
             serializer = BuildingCreateSerializer(data=request.data)
-            serializer.initial_data['company_id'] = company.company_id  # Serializer의 key값(company_id)과 value값으로 참조한 user_id로부터 참조한 company_id 입력
+            serializer.initial_data[
+                'company_id'] = company.company_id  # Serializer의 key값(company_id)과 value값으로 참조한 user_id로부터 참조한 company_id 입력
             if serializer.is_valid():  # 유효성 검사
                 serializer.save()  # 저장
-                return Response({"message" : "빌딩이 생성되었습니다.",
-                                 "building_id" : serializer.data["building_id"]})
+                return Response({"message": "빌딩이 생성되었습니다.",
+                                 "building_id": serializer.data["building_id"]})
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"adminerror": "관리자가 아닙니다"})
@@ -148,7 +149,7 @@ class DeleteBuilding(APIView):  # 빌딩 삭제
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class CreateGlass(APIView): # company_id 도 필요
+class CreateGlass(APIView):  # company_id 도 필요
     # 새로운 Glass를 등록
     def post(self, request, pk):
         response_data = {
@@ -156,11 +157,12 @@ class CreateGlass(APIView): # company_id 도 필요
             "message": "생성되었습니다."
         }
         account = Account.objects.get(pk=pk)  # user_id로 Account table 전달
-        company = account.company_id # Account table의 company_id로 Company 정참조 (Account 테이블의 fk(N) -> Company 테이블의 pk(1))
+        company = account.company_id  # Account table의 company_id로 Company 정참조 (Account 테이블의 fk(N) -> Company 테이블의 pk(1))
         if account.is_admin == 1:
             # request.data는 사용자의 입력 데이터
             serializer = GlassSerializer(data=request.data)
-            serializer.initial_data['company_id'] = company.company_id  # Serializer의 key값(company_id)과 value값으로 참조한 user_id로부터 참조한 company_id 입력
+            serializer.initial_data[
+                'company_id'] = company.company_id  # Serializer의 key값(company_id)과 value값으로 참조한 user_id로부터 참조한 company_id 입력
             if serializer.is_valid():  # 유효성 검사
                 serializer.save()  # 저장
                 return Response(response_data, status=status.HTTP_201_CREATED)
@@ -170,14 +172,15 @@ class CreateGlass(APIView): # company_id 도 필요
 
 
 class EnrollPicture(APIView):
-    def post(self, request, pk): # 다수 데이터 저장 -> [{"purchased_at": null, "show": 11, "seat": 106}, {"purchased_at": null, "show": 11, "seat": 219}] 꼴로 만들어서 저장
+    def post(self, request,
+             pk):  # 다수 데이터 저장 -> [{"purchased_at": null, "show": 11, "seat": 106}, {"purchased_at": null, "show": 11, "seat": 219}] 꼴로 만들어서 저장
         account = Account.objects.get(pk=pk)
         if account.is_admin == 1:
             savinglist = []
 
             for floor, drawings in enumerate(request.data['drawing_list']):
-                odi = OrderedDict() # 주의 : 시리얼라이저 순서에 맞게 속성 만들어주고 저장해주자. -> OrderedDict 사용 이유: 딕셔너리 내 순서 바뀌지 않고 저장한 순서대로 지킴.
-                odi['floor'] = floor+1
+                odi = OrderedDict()  # 주의 : 시리얼라이저 순서에 맞게 속성 만들어주고 저장해주자. -> OrderedDict 사용 이유: 딕셔너리 내 순서 바뀌지 않고 저장한 순서대로 지킴.
+                odi['floor'] = floor + 1
                 odi['building_id'] = request.data['building_id']
                 odi['drawing'] = drawings
                 savinglist.append(odi)
@@ -189,10 +192,9 @@ class EnrollPicture(APIView):
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": "성공"})
         else:
             return Response({"adminerror": "관리자가 아닙니다"})
-
 
 
 def show_glass_list2(request, user_id):
