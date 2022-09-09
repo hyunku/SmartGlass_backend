@@ -44,15 +44,13 @@ class ShowUserBuildingSerializer(serializers.ModelSerializer):
         return obj.building_context
 
 
+# serializers의 필드명 변경하기 - 저장, 출력 모두 가능
 class BuildingCreateSerializer(serializers.ModelSerializer):
-    context = serializers.SerializerMethodField()
+    context = serializers.CharField(source="building_context")
 
     class Meta:
         model = Building
         fields = ['building_id', 'building_name', 'max_floor', 'min_floor', 'context', 'company_id']
-
-    def get_context(self, obj):
-        return obj.building_context
 
 
 class DrawingSerializer(serializers.ModelSerializer):
