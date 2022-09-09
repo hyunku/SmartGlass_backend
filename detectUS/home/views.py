@@ -358,43 +358,51 @@ def show_list(request,user_id):
         
         #접속 admin의 company 파악
         user_company = Account.objects.filter(user_id__exact=user_id).values('company_id')
-        print(user_company)
+       
 
         #접속 admin과 같은 company에 소속되어 있는 user만 추출
         user_list = Account.objects.filter(company_id__exact=user_company[0]['company_id']).values('user_id')&Account.objects.exclude(user_id__exact=user_id).values('user_id')
-        print(user_list)
+        
 
         #raw_data_id,name,picture,floor,room,details
         raw_data_id = Raw_data.objects.filter(upload_user_id__in=user_list).values('raw_data_id')
         upload_target_building_id = Raw_data.objects.filter(raw_data_id__in=raw_data_id).values('upload_target_building_id')
         picture = Raw_data.objects.filter(upload_user_id__in=user_list).values('picture')
         information = Issue.objects.filter(issue_id__in=raw_data_id).values('floor','room','details')
+        
 
         #추출한 queryset을 python list로 변환
         raw_data_id_result = [entry for entry in raw_data_id]
         picture_result = [entry for entry in picture]
         information_result = [entry for entry in information] 
-
+       
         #변환한 list들을 dict로 묶어주기
         crack_list = [dict(i,**j,**k) for i,j,k in zip(raw_data_id_result,picture_result,information_result)]
-
+        
         #building_id와 매치되는 building_name 추가
         for i in range(len(upload_target_building_id)):
             '''building_name = Building.objects.filter(building_id__exact=crack_list[i]['upload_target_building_id']).values('building_name')[0]['building_name']
             crack_list[i]['name'] = building_name'''
             building_name = Building.objects.filter(building_id__exact=upload_target_building_id[i]['upload_target_building_id']).values('building_name')[0]['building_name']
+            
             crack_list[i]['name'] = building_name
 
          #접속 user의 company에 속한 building만 선택
         user_company = Account.objects.filter(user_id__exact=user_id).values('company_id')
         building = Building.objects.filter(company_id__exact=user_company[0]['company_id']).values('building_id','building_name')
-        print(building)
+        print(building[0]['building_name'])
 
         #Queryset을 python list로 변환
-        building_list = [entry for entry in building]
+        #building_list = [entry for entry in building]
 
-        data = {"admin":1,"title":"새 이슈","issue_list":crack_list,"building list":building_list}
+        building_list=["전체"]
+        for i in range(len(building)):
+            building_list.append(building[i]['building_name'])
+
         
+        print(building_list)
+        data = {"admin":1,"title":"새 이슈","issue_list":crack_list,"building list":building_list}
+
         return JsonResponse(data,json_dumps_params={'ensure_ascii': False})
             
     
