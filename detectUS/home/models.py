@@ -84,7 +84,7 @@ class Floor(models.Model): # 설계도
 class Image(models.Model): # 이미지
     image_url = models.CharField(max_length=200,null=True)
     upload_user_id = models.CharField(max_length=45,null=True)
-    upload_target_building_name = models.IntegerField(null=True)
+    upload_target_building_id = models.IntegerField(null=True)
     key = models.CharField(max_length=200,null=True)
     
     class Meta:
@@ -93,7 +93,7 @@ class Image(models.Model): # 이미지
 class Voice_to_Text(models.Model): # 음성파일
     voice_to_text = models.CharField(max_length=200,null=True)
     upload_user_id = models.CharField(max_length=45,null=True)
-    upload_target_building_name = models.IntegerField(null=True)
+    upload_target_building_id = models.IntegerField(null=True)
     key = models.CharField(max_length=200,null=True)
 
     class Meta:
