@@ -85,7 +85,7 @@ class Image(models.Model): # 이미지
     image_url = models.CharField(max_length=200,null=True)
     upload_user_id = models.CharField(max_length=45,null=True)
     upload_target_building_id = models.IntegerField(null=True)
-    key = models.CharField(max_length=200,null=True)
+    key_value = models.CharField(max_length=200,null=True)
     
     class Meta:
         db_table = 'image'
@@ -94,14 +94,14 @@ class Voice_to_Text(models.Model): # 음성파일
     voice_to_text = models.CharField(max_length=200,null=True)
     upload_user_id = models.CharField(max_length=45,null=True)
     upload_target_building_id = models.IntegerField(null=True)
-    key = models.CharField(max_length=200,null=True)
+    key_value = models.CharField(max_length=200,null=True)
 
     class Meta:
         db_table = 'voice_to_text'
 
 class Key_Table(models.Model): # 음성, 이미지 연결 키
     user_id = models.ForeignKey(Account, on_delete=CASCADE, db_column='user_id')
-    key = models.CharField(max_length=200,null=True)
+    key_value = models.CharField(max_length=200,null=True)
 
     class Meta:
         db_table = 'key_table'
