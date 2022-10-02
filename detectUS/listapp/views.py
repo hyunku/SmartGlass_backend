@@ -10,7 +10,7 @@ from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from home.models import Building, Glass, Account, Issue, Raw_data, Floor
+from home.models import Building, Glass, Account, Issue, Raw_data, Floor, Image, Voice_to_Text
 from listapp.serializers import BuildingSerializer, GlassSerializer, ShowUserBuildingSerializer, \
     BuildingCreateSerializer, DrawingSerializer
 
@@ -46,6 +46,54 @@ from listapp.serializers import BuildingSerializer, GlassSerializer, ShowUserBui
 # if serializer.is_valid():
 #     serializer.save()
 #     serializer.data['필드']
+
+class BuildingDetail2(APIView): # 건물 상세 페이지 - db수정 후 최신사항
+    def get_object(self, pk):
+        try:
+            return Building.objects.get(pk=pk)
+        except Building.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        # queryset load
+        building = Building.objects.filter(building_id=pk).values("building_name", "max_floor", "min_floor")
+        image = Image.objects.filter(upload_target_building_id=pk).values("image_url", "key_value")
+        stt = Voice_to_Text.objects.filter(upload_target_building_id=pk).values("voice_to_text", "key_value")
+
+        # queryset -> list
+        picture_list = [x for x in image]
+        stt_list = [x for x in stt]
+
+        savinglist = []
+        for i in range(len(picture_list)):
+            for j in range(len(stt_list)):
+                if picture_list[i]['key_value'] == stt_list[j]['key_value']:
+                    odi = OrderedDict()
+                    odi['picture'] = picture_list[i]['image_url']
+                    name_idx = stt_list[j]['voice_to_text'].find('층')
+                    odi['floor'] = stt_list[j]['voice_to_text'][:name_idx+1].strip()
+                    room_idx = stt_list[j]['voice_to_text'].find('호')
+                    odi['room'] = stt_list[j]['voice_to_text'][name_idx+1:room_idx+1].strip()
+                    odi['detail'] = stt_list[j]['voice_to_text'][room_idx+1:].strip()
+                    savinglist.append(odi)
+
+        print(savinglist)
+
+        # drawing 데이터 리턴
+        drawings = Floor.objects.filter(building_id=pk).values("drawing")  # queryset load
+        drawings_list = [x for x in drawings]  # queryset -> list
+        drawing_list = [drawings_list[x]['drawing'] for x in range(len(drawings_list))] # 딕셔너리 키값을 뜻하는 중괄호 없애기
+
+        response_data = {
+            "building_name": building[0]['building_name'],
+            "max_floor": building[0]['max_floor'],
+            "min_floor": building[0]['min_floor'],
+            "drawing_list": drawing_list,
+            "issue_list": savinglist}
+
+        return Response(response_data)
+
+
 
 class BuildingDetail(APIView):  # 특정 빌딩 관련 전체 데이터들
     def get_object(self, pk):
@@ -161,8 +209,7 @@ class CreateGlass(APIView):  # company_id 도 필요
         if account.is_admin == 1:
             # request.data는 사용자의 입력 데이터
             serializer = GlassSerializer(data=request.data)
-            serializer.initial_data[
-                'company_id'] = company.company_id  # Serializer의 key값(company_id)과 value값으로 참조한 user_id로부터 참조한 company_id 입력
+            serializer.initial_data['company_id'] = company.company_id  # Serializer의 key값(company_id)과 value값으로 참조한 user_id로부터 참조한 company_id 입력
             if serializer.is_valid():  # 유효성 검사
                 serializer.save()  # 저장
                 return Response(response_data, status=status.HTTP_201_CREATED)
@@ -172,8 +219,7 @@ class CreateGlass(APIView):  # company_id 도 필요
 
 
 class EnrollPicture(APIView):
-    def post(self, request,
-             pk):  # 다수 데이터 저장 -> [{"purchased_at": null, "show": 11, "seat": 106}, {"purchased_at": null, "show": 11, "seat": 219}] 꼴로 만들어서 저장
+    def post(self, request, pk):  # 다수 데이터 저장 -> [{"purchased_at": null, "show": 11, "seat": 106}, {"purchased_at": null, "show": 11, "seat": 219}] 꼴로 만들어서 저장
         account = Account.objects.get(pk=pk)
         if account.is_admin == 1:
             savinglist = []

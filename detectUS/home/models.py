@@ -10,7 +10,7 @@ class Account(models.Model):
     user_id = models.CharField(max_length=45, null=False, primary_key=True)
     user_pw = models.CharField(max_length=20, null=False)
     company_id = models.ForeignKey('Company', on_delete=models.CASCADE, default='', db_column='company_id')
-    is_admin = models.IntegerField(null=False, default='0')  #
+    is_admin = models.IntegerField(null=False, default='0')
     name = models.CharField(max_length=45, null=False, default='')
 
     class Meta:
@@ -28,7 +28,7 @@ class Glass(models.Model):
         db_table = 'glass'
 
 
-class Raw_data(models.Model):
+class Raw_data(models.Model): # 사용 X
     raw_data_id = models.AutoField(primary_key=True)
     picture = models.CharField(max_length=200,null=True)
     voice = models.CharField(max_length=100,null=True)
@@ -60,7 +60,7 @@ class Building(models.Model):
         db_table = 'building'
 
 
-class Issue(models.Model): # raw data 정리한 table
+class Issue(models.Model): # 사용 X
     issue_id = models.AutoField(primary_key=True)
     raw_data_id = models.OneToOneField("Raw_data",on_delete=models.CASCADE, db_column='raw_data_id',default='')
     floor = models.CharField(max_length=10,null=True)
